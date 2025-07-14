@@ -16,7 +16,7 @@ public class Cart {
     @OneToOne
     private User user;
 
-    @OneToOne
+    @OneToMany
     private List<Ticket> tickets;
 
 

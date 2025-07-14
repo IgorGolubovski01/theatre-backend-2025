@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -20,12 +21,12 @@ public class Projection {
     private Genre genre;
     private String duration;
     private String director;
-    private String actors;
+    @OneToMany
+    private List<Actor> actors;
     private Date releaseDate;
     private Date projectionDate;
     private BigDecimal price;
     private Float rating;
-
     private Integer projectionCapacity;
     private Integer soldTickets;
 
