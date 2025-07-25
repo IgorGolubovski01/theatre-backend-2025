@@ -21,7 +21,7 @@ public class Projection {
     private Genre genre;
     private String duration;
     private String director;
-    @OneToMany
+    @ManyToMany
     private List<Actor> actors;
     private Date releaseDate;
     private Date projectionDate;
@@ -29,5 +29,6 @@ public class Projection {
     private Float rating;
     private Integer projectionCapacity;
     private Integer soldTickets;
+    private String longDescription;
 
 }
