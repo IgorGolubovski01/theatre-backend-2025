@@ -23,7 +23,7 @@ public class ProjectionController {
     }
 
     @GetMapping("getProjectionById/{projectionId}")
-    public ResponseEntity<Optional<Projection>> getProjectionById(@PathVariable int projectionId){
+    public ResponseEntity<Projection> getProjectionById(@PathVariable int projectionId){
         return projectionService.getProjectionById(projectionId);
     }
 }

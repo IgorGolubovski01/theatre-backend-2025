@@ -20,9 +20,10 @@ public class ProjectionService {
         return new ResponseEntity<>(projectionRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Optional<Projection>> getProjectionById(int projectionId) {
-        if(projectionRepository.existsById(projectionId)) {
-            return new ResponseEntity<>(projectionRepository.findById(projectionId), HttpStatus.OK);
+    public ResponseEntity<Projection> getProjectionById(int projectionId) {
+        Optional<Projection> optionalProjection = projectionRepository.findById(projectionId);
+        if(optionalProjection.isPresent()) {
+            return new ResponseEntity<>(optionalProjection.get(), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

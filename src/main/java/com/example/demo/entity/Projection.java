@@ -21,7 +21,7 @@ public class Projection {
     private Genre genre;
     private String duration;
     private String director;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Actor> actors;
     private Date releaseDate;
     private Date projectionDate;
