@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.LoginRequest;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -19,5 +20,10 @@ public class UserController {
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody User user) {
         return userService.register(user);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
 }
