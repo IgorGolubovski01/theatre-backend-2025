@@ -38,7 +38,14 @@ public class CartService {
         order.setOrderStatus(orderStatusRepository.getReferenceById(1));
         ordersRepository.save(order);
 
-        for(int i = 0 ; i < request.getQuantity() ; i++) {
+        int ticketQuantity = request.getQuantity();
+        int availableTickets = projection.getProjectionCapacity()-projection.getSoldTickets();
+
+        if(ticketQuantity > availableTickets) {
+            return new ResponseEntity<>("Not enough available tickets.", HttpStatus.BAD_REQUEST);
+        }
+
+        for(int i = 0 ; i <= ticketQuantity ; i++) {
             Ticket ticket = new Ticket();
             ticket.setOrder(order);
             ticket.setProjection(projection);

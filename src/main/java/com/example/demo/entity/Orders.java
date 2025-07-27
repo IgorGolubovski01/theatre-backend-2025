@@ -3,9 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity
@@ -17,8 +15,6 @@ public class Orders {
     private Integer orderId;
     @ManyToOne
     private User user;
-    @OneToMany
-    private List<Ticket> tickets;
     private LocalDateTime orderDate;
     @ManyToOne
     private OrderStatus orderStatus;
