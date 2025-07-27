@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -19,5 +19,7 @@ public class Orders {
     private User user;
     @OneToMany
     private List<Ticket> tickets;
-    private Date orderDate;
+    private LocalDateTime orderDate;
+    @ManyToOne
+    private OrderStatus orderStatus;
 }

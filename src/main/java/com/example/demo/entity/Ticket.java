@@ -17,6 +17,6 @@ public class Ticket {
     @ManyToOne
     private Projection projection;
     @ManyToOne
-    private TicketStatus status;
+    private TicketStatus ticketStatus;
 
 }
