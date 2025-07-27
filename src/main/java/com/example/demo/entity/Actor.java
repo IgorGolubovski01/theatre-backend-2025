@@ -1,17 +1,17 @@
-    package com.example.demo.entity;
+package com.example.demo.entity;
 
-    import jakarta.persistence.*;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-    @Entity
-    @NoArgsConstructor
-    @Data
-    public class Actor {
+@Entity
+@NoArgsConstructor
+@Data
+public class Actor {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
-        private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer actorId;
+    private String name;
 
-    }
+}

@@ -4,21 +4,20 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 @NoArgsConstructor
-@Data
-public class Cart {
+public class Orders {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer cartId;
-    @OneToOne
+    private Integer orderId;
+    @ManyToOne
     private User user;
-
     @OneToMany
     private List<Ticket> tickets;
-
-
-
+    private Date orderDate;
 }

@@ -7,13 +7,13 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
 @NoArgsConstructor
-@Data
-public class Status {
+public class TicketStatus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    private String name;
+    private Integer ticketStatusId;
+    private String status;
 }

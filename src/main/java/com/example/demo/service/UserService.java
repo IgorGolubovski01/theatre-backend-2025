@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.LoginRequest;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
@@ -35,8 +34,10 @@ public class UserService {
         u.setEmail(user.getEmail());
         u.setPassword(user.getPassword());
         u.setRole(roleRepository.getReferenceById(2));
-
         userRepository.save(u);
+
+
+
         return new ResponseEntity<>("Successfully registered.", HttpStatus.CREATED);
     }
 

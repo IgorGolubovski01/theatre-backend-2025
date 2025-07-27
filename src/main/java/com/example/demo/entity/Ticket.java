@@ -4,24 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
-@Entity 
-@NoArgsConstructor
 @Data
+@Entity
+@NoArgsConstructor
 public class Ticket {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int ticketId;
+    private Integer ticketId;
+    @ManyToOne
+    private Orders order;
     @ManyToOne
     private Projection projection;
     @ManyToOne
-    private User user;
-    private Date bookingDate;
-    @OneToOne
-    private Status status;
-    @ManyToOne
-    private Cart cart;
+    private TicketStatus status;
 
 }
