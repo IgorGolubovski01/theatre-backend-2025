@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.UserDto;
 import com.example.demo.entity.User;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
@@ -33,7 +34,7 @@ public class UserService {
         u.setUsername(user.getUsername());
         u.setEmail(user.getEmail());
         u.setPassword(user.getPassword());
-        u.setRole(roleRepository.getReferenceById(2));
+        u.setRole(roleRepository.getReferenceById(1));
         userRepository.save(u);
 
 
@@ -41,16 +42,22 @@ public class UserService {
         return new ResponseEntity<>("Successfully registered.", HttpStatus.CREATED);
     }
 
-    public ResponseEntity<String> login(LoginRequest request) {
+    public ResponseEntity<UserDto> login(LoginRequest request) {
 
         try {
             Authentication auth = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
             );
 
-            return ResponseEntity.ok("Login successful.");
+            User user = userRepository.findByEmail(request.getEmail());
+            UserDto dto = new UserDto();
+            dto.setId(user.getUserId());
+            dto.setUsername(user.getUsername());
+            dto.setEmail(user.getEmail());
+
+            return ResponseEntity.ok(dto);
         }catch (BadCredentialsException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
 
     }
