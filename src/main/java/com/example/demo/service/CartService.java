@@ -3,10 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dto.AddToCartRequest;
 import com.example.demo.dto.OrderDto;
 import com.example.demo.dto.TicketDto;
-import com.example.demo.entity.Orders;
-import com.example.demo.entity.Projection;
-import com.example.demo.entity.Ticket;
-import com.example.demo.entity.User;
+import com.example.demo.entity.*;
 import com.example.demo.repository.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -73,24 +70,53 @@ public class CartService {
 
         List<Orders> orders = ordersRepository.findByUser(user);
 
-        List<OrderDto> orderDtos = orders.stream().map(order -> {
-            OrderDto orderDto = new OrderDto();
-            orderDto.setOrderId(order.getOrderId());
-            orderDto.setOrderDate(order.getOrderDate());
 
-            List<TicketDto> ticketDtos = order.getTickets().stream().map(ticket -> {
-                TicketDto ticketDto = new TicketDto();
-                ticketDto.setTicketId(ticket.getTicketId());
-                ticketDto.setProjectionId(ticket.getProjection().getProjectionId());
-                return ticketDto;
-            }).collect(Collectors.toList());
-            orderDto.setTickets(ticketDtos);
-            return orderDto;
+        return orders.stream()
+                .filter(order -> order.getOrderStatus() == orderStatusRepository.getReferenceById(1))
+                .map(order -> {
+
+
+                OrderDto orderDto = new OrderDto();
+                orderDto.setOrderId(order.getOrderId());
+                orderDto.setOrderDate(order.getOrderDate());
+
+                List<TicketDto> ticketDtos = order.getTickets().stream().map(ticket -> {
+                    TicketDto ticketDto = new TicketDto();
+                    ticketDto.setTicketId(ticket.getTicketId());
+                    ticketDto.setProjectionId(ticket.getProjection().getProjectionId());
+                    return ticketDto;
+                }).collect(Collectors.toList());
+                orderDto.setTickets(ticketDtos);
+                return orderDto;
 
         }).collect(Collectors.toList());
-
-
-        return orderDtos;
     }
 
+    public List<OrderDto> getPurchasedTickets(int userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        List<Orders> orders = ordersRepository.findByUser(user);
+
+
+        return orders.stream()
+                .filter(order -> order.getOrderStatus() == orderStatusRepository.getReferenceById(2))
+                .map(order -> {
+
+
+                    OrderDto orderDto = new OrderDto();
+                    orderDto.setOrderId(order.getOrderId());
+                    orderDto.setOrderDate(order.getOrderDate());
+
+                    List<TicketDto> ticketDtos = order.getTickets().stream().map(ticket -> {
+                        TicketDto ticketDto = new TicketDto();
+                        ticketDto.setTicketId(ticket.getTicketId());
+                        ticketDto.setProjectionId(ticket.getProjection().getProjectionId());
+                        return ticketDto;
+                    }).collect(Collectors.toList());
+                    orderDto.setTickets(ticketDtos);
+                    return orderDto;
+
+                }).collect(Collectors.toList());
+    }
 }

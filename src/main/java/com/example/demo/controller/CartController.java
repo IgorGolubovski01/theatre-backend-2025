@@ -28,5 +28,10 @@ public class CartController {
         return cartService.getCartTickets(userId);
     }
 
+    @GetMapping("getPurchasedTickets/{userId}")
+    public List<OrderDto> getPurchasedTickets(@PathVariable int userId){
+        return cartService.getPurchasedTickets(userId);
+    }
+
 
 }
