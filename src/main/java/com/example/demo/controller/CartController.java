@@ -33,5 +33,10 @@ public class CartController {
         return cartService.getPurchasedTickets(userId);
     }
 
+    @DeleteMapping("deleteOrder/{orderId}")
+    public ResponseEntity<String> deleteOrder(@PathVariable int orderId){
+        return cartService.deleteOrder(orderId);
+    }
+
 
 }

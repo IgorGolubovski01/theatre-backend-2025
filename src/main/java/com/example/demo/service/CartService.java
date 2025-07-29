@@ -5,6 +5,9 @@ import com.example.demo.dto.OrderDto;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.entity.*;
 import com.example.demo.repository.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,8 @@ public class CartService {
     private final TicketRepository ticketRepository;
     private final OrderStatusRepository orderStatusRepository;
     private final TicketStatusRepository ticketStatusRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ResponseEntity<String> addToCart(AddToCartRequest request) {
         User user = userRepository.findById(request.getUserId())
@@ -49,7 +54,7 @@ public class CartService {
 
 
         List<Ticket> tickets = new ArrayList<>();
-        for(int i = 0 ; i <= ticketQuantity ; i++) {
+        for(int i = 0 ; i < ticketQuantity ; i++) {
             Ticket ticket = new Ticket();
             ticket.setOrder(order);
             ticket.setProjection(projection);
@@ -119,4 +124,24 @@ public class CartService {
 
                 }).collect(Collectors.toList());
     }
+
+    @Transactional
+    public ResponseEntity<String> deleteOrder(int orderId) {
+        Orders order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found."));
+
+        List<Ticket> tickets = order.getTickets();
+        for (Ticket ticket : tickets) {
+            ticket.setOrder(null);
+        }
+        ticketRepository.saveAll(tickets);
+
+        ordersRepository.delete(order);
+
+        ticketRepository.deleteAll(tickets);
+
+        return ResponseEntity.ok("Order and associated tickets deleted successfully.");
+    }
+
+
 }

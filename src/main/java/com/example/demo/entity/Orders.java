@@ -21,5 +21,5 @@ public class Orders {
     @ManyToOne
     private OrderStatus orderStatus;
     @OneToMany
-    private List<Ticket> tickets = new ArrayList<>();
+    private List<Ticket> tickets;
 }

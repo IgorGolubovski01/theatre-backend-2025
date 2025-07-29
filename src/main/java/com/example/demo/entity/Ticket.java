@@ -13,10 +13,13 @@ public class Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer ticketId;
     @ManyToOne
+    @JoinColumn(name = "order_order_id", nullable = true)
     private Orders order;
     @ManyToOne
     private Projection projection;
     @ManyToOne
     private TicketStatus ticketStatus;
+
+
 
 }
