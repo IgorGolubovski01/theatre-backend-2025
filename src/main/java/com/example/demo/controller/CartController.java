@@ -38,5 +38,10 @@ public class CartController {
         return cartService.deleteOrder(orderId);
     }
 
+    @PostMapping("purchaseOrder/{orderId}")
+    public ResponseEntity<String> purchaseOrder(@PathVariable int orderId){
+        return cartService.purchaseOrder(orderId);
+    }
+
 
 }

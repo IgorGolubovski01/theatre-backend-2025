@@ -144,4 +144,26 @@ public class CartService {
     }
 
 
+    public ResponseEntity<String> purchaseOrder(int orderId) {
+        Orders order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new IllegalArgumentException("Order not found."));
+
+        order.setOrderStatus(orderStatusRepository.getReferenceById(2));
+        ordersRepository.save(order);
+
+        List<Ticket> tickets = order.getTickets();
+
+        for (Ticket ticket : tickets) {
+            ticket.setTicketStatus(ticketStatusRepository.getReferenceById(2));
+        }
+        ticketRepository.saveAll(tickets);
+
+        Projection projection = order.getTickets().get(0).getProjection();
+        projection.setSoldTickets(projection.getSoldTickets() + tickets.size());
+        projectionRepository.save(projection);
+
+
+
+        return ResponseEntity.ok("Order purchased successfully.");
+    }
 }
