@@ -38,15 +38,19 @@ public class CartService {
         Projection projection = projectionRepository.findById(request.getProjectionId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid projection ID."));
 
+        int ticketQuantity = request.getQuantity();
+        int availableTickets = projection.getProjectionCapacity()-projection.getSoldTickets();
 
+        if((availableTickets - ticketQuantity) <= 0){
+            return new ResponseEntity<>("Not enough available tickets.", HttpStatus.BAD_REQUEST);
+        }
         Orders order = new Orders();
         order.setUser(user);
         order.setOrderDate(LocalDateTime.now());
         order.setOrderStatus(orderStatusRepository.getReferenceById(1));
         ordersRepository.save(order);
 
-        int ticketQuantity = request.getQuantity();
-        int availableTickets = projection.getProjectionCapacity()-projection.getSoldTickets();
+
 
         if(ticketQuantity > availableTickets) {
             return new ResponseEntity<>("Not enough available tickets.", HttpStatus.BAD_REQUEST);
