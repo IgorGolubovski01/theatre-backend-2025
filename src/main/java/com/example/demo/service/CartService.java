@@ -28,8 +28,7 @@ public class CartService {
     private final TicketRepository ticketRepository;
     private final OrderStatusRepository orderStatusRepository;
     private final TicketStatusRepository ticketStatusRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
+
 
     public ResponseEntity<String> addToCart(AddToCartRequest request) {
         User user = userRepository.findById(request.getUserId())
@@ -41,7 +40,7 @@ public class CartService {
         int ticketQuantity = request.getQuantity();
         int availableTickets = projection.getProjectionCapacity()-projection.getSoldTickets();
 
-        if((availableTickets - ticketQuantity) <= 0){
+        if((availableTickets - ticketQuantity) < 0){
             return new ResponseEntity<>("Not enough available tickets.", HttpStatus.BAD_REQUEST);
         }
         Orders order = new Orders();
@@ -50,11 +49,6 @@ public class CartService {
         order.setOrderStatus(orderStatusRepository.getReferenceById(1));
         ordersRepository.save(order);
 
-
-
-        if(ticketQuantity > availableTickets) {
-            return new ResponseEntity<>("Not enough available tickets.", HttpStatus.BAD_REQUEST);
-        }
 
 
         List<Ticket> tickets = new ArrayList<>();
